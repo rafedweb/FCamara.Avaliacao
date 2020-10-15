@@ -96,17 +96,18 @@ namespace FCamara.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Pesquisar(FiltrosFuncionario funcionarioViewModel)
+        public async Task<IActionResult> Pesquisar(FuncionarioViewModel funcionarioViewModel)
         {
-            var parametros  = new FiltrosFuncionario {
-                Nome = (string.IsNullOrEmpty(funcionarioViewModel.Nome) ? string.Empty : funcionarioViewModel.Nome),
-                Ativo = funcionarioViewModel.Ativo,
-                Sexo = funcionarioViewModel.Sexo,
-                Nascimento = funcionarioViewModel.Nascimento
-            };
+            //var parametros  = new FiltrosFuncionario {
+            //    Nome = (string.IsNullOrEmpty(funcionarioViewModel.Nome) ? string.Empty : funcionarioViewModel.Nome),
+            //    Ativo = funcionarioViewModel.Ativo,
+            //    Sexo = funcionarioViewModel.Sexo,
+            //    Nascimento = funcionarioViewModel.Nascimento
+            //};
 
-            var funcionario = _mapper.Map<IEnumerable<FuncionarioViewModel>>(await _funcionarioService.ObterFuncionarios(parametros));
+            //var funcionario = _mapper.Map<IEnumerable<FuncionarioViewModel>>(await _funcionarioService.ObterFuncionarios(parametros));
 
+           // return PartialView("_ListaFuncionarios", funcionario);
             return View();
         }
 
