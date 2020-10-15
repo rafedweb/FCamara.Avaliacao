@@ -1,0 +1,30 @@
+﻿@using System.Globalization;
+@{
+    ViewData["Title"] = "Home Page";
+    var mesCorrente = new CultureInfo("pt-BR").DateTimeFormat.GetMonthName(DateTime.Now.Month);
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">        
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+    </ol>
+</nav>
+<hr />
+
+<div class="text-center">
+    <h1 class="display-4">Seleção FCamara</h1>
+    <p>Posiçao : Desenvolvedor .Net</p>
+</div>
+
+<h4>Aniversariantes de @mesCorrente</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <partial name="_listaAniversariantes" model="@ViewData["Aniversariantes"]" />
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
+<hr />

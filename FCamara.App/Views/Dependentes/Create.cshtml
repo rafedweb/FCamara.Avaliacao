@@ -1,0 +1,38 @@
+﻿@model FCamara.App.Models.DependenteViewModel
+
+@{
+    ViewData["Title"] = "Novo Dependente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Dependentes" asp-action="Index">Dependentes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cadastrar</li>
+    </ol>
+</nav>
+
+<hr />
+
+<h4>@ViewData["Title"] </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <partial name="_Form" />
+
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-primary" />
+                <a class="btn btn-info" asp-action="Index">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

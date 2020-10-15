@@ -1,0 +1,31 @@
+﻿@model IEnumerable<FCamara.App.Models.AniversarianteViewModel>
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayName("Nome")
+            </th>
+            <th>
+                @Html.DisplayName("Aniversário")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nascimento.Day)
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>

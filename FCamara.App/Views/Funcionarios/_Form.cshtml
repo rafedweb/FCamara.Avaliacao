@@ -1,0 +1,63 @@
+﻿@model FCamara.App.Models.FuncionarioViewModel
+@using FCamara.Common.Enums
+
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label asp-for="Nome" class="control-label"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        <label asp-for="CPF" class="control-label"></label>
+        <input asp-for="CPF" class="form-control" />
+        <span asp-validation-for="CPF" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-4">
+        <label asp-for="Nascimento" class="control-label"></label>
+        <input asp-for="Nascimento" class="form-control" />
+        <span asp-validation-for="Nascimento" class="text-danger"></span>
+    </div>
+    @if (Model != null)
+    {
+        <div class="form-group col-md-2">
+            <label asp-for="Sexo" class="control-label"></label><br />
+            <input type="radio" value="1" asp-for="Sexo" checked="@(Model.Sexo == ESexo.Masculino)" /> Masculino<br />
+            <input type="radio" value="2" asp-for="Sexo" checked="@(Model.Sexo == ESexo.Feminino)" /> Feminino
+        </div>
+    }
+    else
+    {
+        <div class="form-group col-md-2">
+            <label asp-for="Sexo" class="control-label"></label><br />
+            <input type="radio" value="1" asp-for="Sexo" checked /> Masculino<br />
+            <input type="radio" value="2" asp-for="Sexo" /> Feminino
+        </div>
+    }
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+        </label>
+    </div>
+</div>
+
+
+@if (Model != null)
+{
+    <div id="EnderecoTarget">
+        <partial name="_DetalhesEndereco" />
+    </div>
+
+    <h4>Dependentes</h4>
+    <hr />
+    <partial name="../Dependentes/_ListaDependentes" model="@Model.Dependentes" />
+}
+else
+{
+    <h4>Endereço</h4>
+    <hr />
+
+    <partial name="_Endereco" />
+}
+
