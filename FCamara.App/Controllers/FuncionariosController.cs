@@ -30,17 +30,17 @@ namespace FCamara.App.Controllers
             _mapper = mapper;
             _funcionariorService = funcionarioService;
         }
-
-        // GET: Funcionarios
+       
+        [Route("lista-de-funcionarios")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<FuncionarioViewModel>>(await _funcionarioRepository.ObterTodos()));
         }
-
-        // GET: Funcionarios/Details/5
+        
+        [Route("dados-do-funcionario/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
-            var funcionarioViewModel = await ObterFuncionarioEndereco(id);
+            var funcionarioViewModel = await ObterFuncionarioDependentesEndereco(id);
 
             if (funcionarioViewModel == null)
             {
@@ -50,15 +50,13 @@ namespace FCamara.App.Controllers
             return View(funcionarioViewModel);
         }
 
-        // GET: Funcionarios/Create
+        [Route("novo-funcionario")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Funcionarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("novo-funcionario")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(FuncionarioViewModel funcionarioViewModel)
@@ -73,7 +71,7 @@ namespace FCamara.App.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Funcionarios/Edit/5
+        [Route("editar-funcionario/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var funcionaioViewModel = await ObterFuncionarioDependentesEndereco(id);
@@ -86,9 +84,7 @@ namespace FCamara.App.Controllers
             return View(funcionaioViewModel);
         }
 
-        // POST: Funcionarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("editar-funcionario/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, FuncionarioViewModel funcionarioViewModel)
@@ -105,7 +101,7 @@ namespace FCamara.App.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Funcionarios/Delete/5
+        [Route("excluir-funcionario/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var funcionarioViewModel = await ObterFuncionarioEndereco(id);
@@ -118,7 +114,7 @@ namespace FCamara.App.Controllers
             return View(funcionarioViewModel);
         }
 
-        // POST: Funcionarios/Delete/5
+        [Route("excluir-funcionario/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -133,7 +129,8 @@ namespace FCamara.App.Controllers
 
             return RedirectToAction("Index");
         }
-             
+
+        [Route("obter-endereco-funcionario/{id:guid}")]
         public async Task<IActionResult> ObterEndereco(Guid id)
         {
             var funcionario = await ObterFuncionarioEndereco(id);
@@ -145,7 +142,8 @@ namespace FCamara.App.Controllers
 
             return PartialView("_DetalhesEndereco", funcionario);
         }
-              
+
+        [Route("atualizar-endereco-funcionario/{id:guid}")]
         public async Task<IActionResult> AtualizarEndereco(Guid id)
         {
             var funcionario = await ObterFuncionarioEndereco(id);
@@ -157,7 +155,8 @@ namespace FCamara.App.Controllers
 
             return PartialView("_AtualizarEndereco", new FuncionarioViewModel { Endereco = funcionario.Endereco });
         }
-       
+
+        [Route("atualizar-endereco-funcionario/{id:guid}")]
         [HttpPost]
         public async Task<IActionResult> AtualizarEndereco(FuncionarioViewModel funcionarioViewModel)
         {

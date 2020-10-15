@@ -29,14 +29,14 @@ namespace FCamara.App.Controllers
             _mapper = mapper;
             _dependenteService = dependenteService;
         }
-
-        // GET: Dependentes
+        
+        [Route("lista-de-dependentes")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<DependenteViewModel>>(await _dependenteRepository.ObterDependentesFuncionarios()));
         }
 
-        // GET: Dependentes/Details/5
+        [Route("dados-do-dependente/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var dependeteViewModel = await ObterDependente(id);
@@ -49,7 +49,7 @@ namespace FCamara.App.Controllers
             return View(dependeteViewModel);
         }
 
-        // GET: Dependentes/Create
+        [Route("novo-dependente")]
         public async Task<IActionResult> Create()
         {
             var dependenteViewModel = await PopularFuncionarios(new DependenteViewModel());
@@ -57,9 +57,7 @@ namespace FCamara.App.Controllers
             return View(dependenteViewModel);
         }
 
-        // POST: Dependentes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("novo-dependente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DependenteViewModel dependenteViewModel)
@@ -74,7 +72,7 @@ namespace FCamara.App.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Dependentes/Edit/5
+        [Route("editar-dependente/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var dependenteViewModel = await ObterDependente(id);
@@ -87,9 +85,7 @@ namespace FCamara.App.Controllers
             return View(dependenteViewModel);
         }
 
-        // POST: Dependentes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("editar-dependente/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, DependenteViewModel dependenteViewModel)
@@ -115,7 +111,7 @@ namespace FCamara.App.Controllers
 
         }
 
-        // GET: Dependentes/Delete/5
+        [Route("excluir-dependente/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var dependente = await ObterDependente(id);
@@ -128,7 +124,7 @@ namespace FCamara.App.Controllers
             return View(dependente);
         }
 
-        // POST: Dependentes/Delete/5
+        [Route("excluir-dependente/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

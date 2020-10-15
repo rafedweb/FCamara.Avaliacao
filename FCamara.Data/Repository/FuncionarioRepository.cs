@@ -32,20 +32,6 @@ namespace FCamara.Data.Repository
                 .Include(c => c.Endereco)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
-
-        public async Task<IEnumerable<Funcionario>> ObterFuncionarios(FiltrosFuncionario filtros)
-        {
-
-            var nome = (string.IsNullOrEmpty(filtros.Nome) ? string.Empty : filtros.Nome);
-            var Nascimento = filtros.Nascimento;
-            var depe
-
-            var query = Db.Set<Funcionario>()
-             .AsQueryable()
-             .AsNoTracking();
-
-            var lstResult = query.Select(x => x).Where(x => x.Nome.Contains(filtros.Nome)).ToList();
-            return lstResult;
-        }
+       
     }
 }

@@ -84,7 +84,8 @@ namespace FCamara.Bussiness.Services
             var funcionarios = await _funcionarioRepository.Buscar(f => f.Nome.Contains(filtros.Nome)
                                                   && f.Sexo == filtros.Sexo
                                                   && f.Ativo == filtros.Ativo
-                                                  //&& f.Nascimento == funcionarioViewModel.Nascimento
+                                                  && f.Nascimento == filtros.Nascimento
+                                                  && f.Dependentes.Count() > 0
                                                   );
 
             return funcionarios;
