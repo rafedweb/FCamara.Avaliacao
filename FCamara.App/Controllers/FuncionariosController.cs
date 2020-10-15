@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using FCamara.App.Data;
 using FCamara.App.Models;
 using FCamara.Bussiness.Interfaces.Repository;
 using FCamara.Bussiness.Interfaces.Service;
 using AutoMapper;
 using FCamara.Bussiness.Interfaces;
 using FCamara.Bussiness.Models;
+using KissLog;
 
 namespace FCamara.App.Controllers
 {
     public class FuncionariosController : BaseController
-    {      
+    {
+        private readonly ILogger _logger;
         private readonly IFuncionarioRepository _funcionarioRepository;
         private readonly IFuncionarioService _funcionariorService;
         private readonly IMapper _mapper;
 
-        public FuncionariosController(IFuncionarioRepository funcionarioRepository,
+        public FuncionariosController(ILogger logger, 
+                                      IFuncionarioRepository funcionarioRepository,
                                       IMapper mapper,
                                       IFuncionarioService funcionarioService,
                                       INotificador notificador) : base(notificador)
         {
+            _logger = logger;
             _funcionarioRepository = funcionarioRepository;
             _mapper = mapper;
             _funcionariorService = funcionarioService;
@@ -68,6 +68,8 @@ namespace FCamara.App.Controllers
 
             if (!OperacaoValida()) return View(funcionarioViewModel);
 
+            TempData["Sucesso"] = "Funcionario Adicionado com sucesso!";
+
             return RedirectToAction("Index");
         }
 
@@ -98,6 +100,8 @@ namespace FCamara.App.Controllers
 
             if (!OperacaoValida()) return View(await ObterFuncionarioDependentesEndereco(id));
 
+            TempData["Sucesso"] = "Funcionario editado com sucesso!";
+
             return RedirectToAction("Index");
         }
 
@@ -126,6 +130,8 @@ namespace FCamara.App.Controllers
             await _funcionariorService.Remover(id);
 
             if (!OperacaoValida()) return View(funcionario);
+
+            TempData["Sucesso"] = "Funcionario excluido com sucesso!";
 
             return RedirectToAction("Index");
         }

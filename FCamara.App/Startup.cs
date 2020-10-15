@@ -7,6 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FCamara.Data.Context;
 using FCamara.App.Configurations;
+using Microsoft.AspNetCore.Http;
+using KissLog;
+using KissLog.AspNetCore;
+using KissLog.CloudListeners.RequestLogsListener;
+using KissLog.CloudListeners.Auth;
+using System;
+using System.Text;
+using System.Diagnostics;
 
 namespace FCamara.App
 {
@@ -36,6 +44,13 @@ namespace FCamara.App
         {
             services.AddIdentityConfiguration(Configuration);
 
+            //Kiss Logger biblioteca externa para registro de logs
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ILogger>((context) =>
+            {
+                return Logger.Factory.Get();
+            });
+
             services.AddDbContext<MeuDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -61,6 +76,11 @@ namespace FCamara.App
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseKissLogMiddleware(options => {
+                ConfigureKissLog(options);
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -75,6 +95,46 @@ namespace FCamara.App
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+            });
+        }
+
+        private void ConfigureKissLog(IOptionsBuilder options)
+        {
+            // optional KissLog configuration
+            options.Options
+                .AppendExceptionDetails((Exception ex) =>
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    if (ex is System.NullReferenceException nullRefException)
+                    {
+                        sb.AppendLine("Important: check for null references");
+                    }
+
+                    return sb.ToString();
+                });
+
+            // KissLog internal logs
+            options.InternalLog = (message) =>
+            {
+                Debug.WriteLine(message);
+            };
+
+            // register logs output
+            RegisterKissLogListeners(options);
+        }
+
+        private void RegisterKissLogListeners(IOptionsBuilder options)
+        {
+            // multiple listeners can be registered using options.Listeners.Add() method
+
+            // register KissLog.net cloud listener
+            options.Listeners.Add(new RequestLogsApiListener(new Application(
+                Configuration["KissLog.OrganizationId"],    //  "_OrganizationId_"
+                Configuration["KissLog.ApplicationId"])     //  "_ApplicationId_"
+            )
+            {
+                ApiUrl = Configuration["KissLog.ApiUrl"]    //  "https://api.kisslog.net"
             });
         }
     }

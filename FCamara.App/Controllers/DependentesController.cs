@@ -8,22 +8,26 @@ using FCamara.Bussiness.Interfaces.Service;
 using AutoMapper;
 using FCamara.Bussiness.Interfaces;
 using FCamara.Bussiness.Models;
+using KissLog;
 
 namespace FCamara.App.Controllers
 {
     public class DependentesController : BaseController
     {
+        private readonly ILogger _logger;
         private readonly IDependenteRepository _dependenteRepository;
         private readonly IFuncionarioRepository _funcionarioRepository;
         private readonly IDependenteService _dependenteService;
         private readonly IMapper _mapper;
 
-        public DependentesController(IDependenteRepository dependenteRepository,
+        public DependentesController(ILogger logger,
+                                     IDependenteRepository dependenteRepository,
                                      IFuncionarioRepository funcionarioRepository,
                                      IMapper mapper,
                                      IDependenteService dependenteService, 
                                      INotificador notificador) : base(notificador)
         {
+            _logger = logger;
             _dependenteRepository = dependenteRepository;
             _funcionarioRepository = funcionarioRepository;
             _mapper = mapper;
@@ -69,6 +73,8 @@ namespace FCamara.App.Controllers
 
             if (!OperacaoValida()) return View(dependenteViewModel);
 
+            TempData["Sucesso"] = "Dependente adicionado com sucesso!";
+
             return RedirectToAction("Index");
         }
 
@@ -106,6 +112,8 @@ namespace FCamara.App.Controllers
             await _dependenteService.Atualizar(_mapper.Map<Dependente>(dependeteAtualizacao));
 
             if (!OperacaoValida()) return View(dependenteViewModel);
+
+            TempData["Sucesso"] = "Dependente editado com sucesso!";
 
             return RedirectToAction("Index");
 
