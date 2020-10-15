@@ -1,4 +1,4 @@
-﻿@model FCamara.App.Models.FuncionarioViewModel
+﻿@model FCamara.Common.RequestFilter.FiltrosFuncionario
 
 @{
     ViewData["Title"] = "Pesquisar Funcionarios";
@@ -19,54 +19,60 @@
     <div class="col-md-12">
         <form asp-action="Pesquisar">
             <div class="form-row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-10">
                     <label asp-for="Nome" class="control-label"></label>
                     <input asp-for="Nome" class="form-control" id="Nome" />
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="submit" value="Pesquisar" class="btn btn-dark" id="pesquisar" style="margin-top: 30px;" />
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label asp-for="CPF" class="control-label"></label>
-                    <input asp-for="CPF" class="form-control" id="CPF"/>
+                    <input asp-for="CPF" class="form-control" id="CPF" />
                 </div>
                 <div class="form-group col-md-4">
-                    <label asp-for="Nascimento" class="control-label"></label>
-                    <input asp-for="Nascimento" class="form-control" id="Nascimento"/>
+                    <label asp-for="Inicio" class="control-label"></label>
+                    <input asp-for="Inicio" class="form-control" id="Nascimento" />
                 </div>
-                <div class="form-group col-md-2">
-                    <label for="Sexo">Sexo</label>
-                    <select name="Sexo" id="Sexo">
+                <div class="form-group col-md-4">
+                    <label asp-for="Fim" class="control-label"></label>
+                    <input asp-for="Fim" class="form-control" id="Nascimento" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Sexo">Sexo</label>
+                    <select asp-for="Sexo" id="Sexo">
                         <option value="0">Ambos</option>
                         <option value="1">Masculino</option>
-                        <option value="2">Feminino</option>                        
-                    </select>                   
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="Ativo">Ativo</label>
-                    <select name="Ativo" id="Ativo">
-                        <option value="0">Ambos</option>
-                        <option value="1">Ativo</option>
-                        <option value="2">Inativo</option>
+                        <option value="2">Feminino</option>
                     </select>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <input type="button" value="Pesquisar" class="btn btn-dark" id="pesquisar" />
-            </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Ativo">Ativo</label>
+                    <select asp-for="Ativo" id="Ativo">
+                        <option value="">Ambos</option>
+                        <option value="true">Ativo</option>
+                        <option value="false">Inativo</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Dependentes">Dependentes?</label>
+                    <select asp-for="Dependentes" id="Dependentes">
+                        <option value=""></option>
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
+                    </select>
+                </div>
+            </div>            
         </form>
-    </div>
+</div>
 </div>
 
-<hr />
-
-<partial name="_ListaFuncionarios" />
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-        PesquisarFuncionario();
-    </script>
+@if (Model != null)
+{
+    <hr />
+    <partial name="_ListaFuncionarios" , model="@Model.Funcionarios" />
 }

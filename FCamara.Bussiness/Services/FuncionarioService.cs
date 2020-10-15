@@ -88,21 +88,23 @@ namespace FCamara.Bussiness.Services
             if (funcionarios.Any()) return funcionarios.Where(f => f.Aniversariante(f) == true).ToList();
 
             return new List<Funcionario>();
-           
+
         }
 
         public async Task<IEnumerable<Funcionario>> ObterFuncionarios(FiltrosFuncionario filtros)
         {
-            var funcionarios = await _funcionarioRepository.Buscar(f => f.Nome.Contains(filtros.Nome)
-                                                  && f.Sexo == filtros.Sexo
-                                                  && f.Ativo == filtros.Ativo
-                                                  && f.Nascimento == filtros.Nascimento
-                                                  && f.Dependentes.Count() > 0
+            var funcionarios = await _funcionarioRepository.Buscar(f => (filtros.Nome == null || f.Nome.Contains(filtros.Nome))
+                                                   && (filtros.Sexo == null || f.Sexo == filtros.Sexo)
+                                                   && (filtros.Ativo == null || f.Ativo == filtros.Ativo)
+                                                   && (filtros.Inicio == null || f.Nascimento >= filtros.Inicio)
+                                                   && (filtros.Fim == null || f.Nascimento <= filtros.Fim)
+                                                   && (filtros.Dependentes == null || (f.Dependentes.Count() > 0) == filtros.Dependentes)                                                 
                                                   );
 
+
             return funcionarios;
-                      
-            
+
+
         }
     }
 }

@@ -7,6 +7,8 @@ using AutoMapper;
 using FCamara.Bussiness.Interfaces.Service;
 using FCamara.Common.RequestFilter;
 using KissLog;
+using Microsoft.Extensions.Caching.Memory;
+using System.Linq;
 
 namespace FCamara.App.Controllers
 {
@@ -21,7 +23,7 @@ namespace FCamara.App.Controllers
         private readonly IFuncionarioRepository _funcionarioRepository;
         private readonly IDependenteService _dependenteService;
         private readonly IMapper _mapper;
-              
+
 
         public HomeController(ILogger logger,
                               IFuncionarioService funcionarioService,
@@ -96,19 +98,26 @@ namespace FCamara.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Pesquisar(FuncionarioViewModel funcionarioViewModel)
+        public async Task<IActionResult> Pesquisar(FiltrosFuncionario funcionarioViewModel)
         {
-            //var parametros  = new FiltrosFuncionario {
-            //    Nome = (string.IsNullOrEmpty(funcionarioViewModel.Nome) ? string.Empty : funcionarioViewModel.Nome),
-            //    Ativo = funcionarioViewModel.Ativo,
-            //    Sexo = funcionarioViewModel.Sexo,
-            //    Nascimento = funcionarioViewModel.Nascimento
-            //};
 
-            //var funcionario = _mapper.Map<IEnumerable<FuncionarioViewModel>>(await _funcionarioService.ObterFuncionarios(parametros));
+            var funcionarios = _mapper.Map<IEnumerable<FuncionarioViewModel>>(await _funcionarioService.ObterFuncionarios(funcionarioViewModel)).ToList();
 
-           // return PartialView("_ListaFuncionarios", funcionario);
-            return View();
+            funcionarioViewModel.Funcionarios = new List<FuncionariosResponse>();
+
+            foreach (var funcionario in funcionarios)
+            {
+                funcionarioViewModel.Funcionarios.Add(new FuncionariosResponse
+                {
+                    Nome = funcionario.Nome,
+                    CPF = funcionario.CPF,
+                    Ativo = funcionario.Ativo,
+                    Nascimento = funcionario.Nascimento,
+                    Sexo = funcionario.Sexo
+                });
+            }
+
+            return View(funcionarioViewModel);
         }
 
         public async Task<IEnumerable<AniversarianteViewModel>> ObterAniversariantes()

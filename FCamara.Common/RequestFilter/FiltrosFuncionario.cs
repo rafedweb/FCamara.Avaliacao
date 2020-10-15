@@ -10,9 +10,11 @@ namespace FCamara.Common.RequestFilter
                 
         public string Nome { get; set; }
         public string CPF { get; set; }
-        public DateTime Nascimento { get; set; }      
-        public ESexo Sexo { get; set; }           
-        public bool Ativo { get; set; }
-        public bool Dependentes { get; set; }
+        public DateTime? Inicio { get; set; }
+        public DateTime? Fim { get; set; }
+        public ESexo? Sexo { get; set; }           
+        public bool? Ativo { get; set; }
+        public bool? Dependentes { get; set; }
+        public List<FuncionariosResponse> Funcionarios { get; set; }
     }
 }

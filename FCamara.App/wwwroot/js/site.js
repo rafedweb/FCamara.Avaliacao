@@ -1,16 +1,4 @@
-﻿var FiltrosConsulta = {};
-
-$(document).ready(function () {
-    $('#Nome').val(FiltrosConsulta.Nome),
-    $('#CPF').val(FiltrosConsulta.CPF),
-    $('#Nascimento').val(FiltrosConsulta.Nascimento),
-    $('#Sexo').val(FiltrosConsulta.Sexo),
-    $('#Ativo').val(FiltrosConsulta.Ativo),
-    $('#Dependentes').val(FiltrosConsulta.Dependentes)
-});
-
-
-function AjaxModal() {
+﻿function AjaxModal() {
 
     $(document).ready(function () {
         $(function () {
@@ -108,45 +96,3 @@ $(document).ready(function () {
     $("#msg_box").fadeOut(2500);
 });
 
-function PesquisarFuncionario() {
-
-    $(document).ready(function () {
-        $(function () {          
-
-            $("#pesquisar").on("click",
-                function (e) {
-                    GetFormData();
-                    debugger
-                    $.ajax({
-                        url: this.baseURI,
-                        type: 'post',                      
-                        data: FiltrosConsulta,                       
-                        success: function (result) {
-                            if (result.success) {
-                                console.log(result);                                
-                            } else {                             
-                                console.log(result);
-                            }
-                        }
-                    }).fail(function (jqXHR, textStatus, msg) {
-                        console.log(jqXHR);
-                    });               
-                     return false;
-                });
-        });
-    });
-}
-
-function GetFormData() {
-
-    FiltrosConsulta = {
-        Nome: $('#Nome').val(),
-        CPF: $('#CPF').val(),
-        Nascimento: $('#Nascimento').val(),
-        Sexo: $('#Sexo').val(),
-        Ativo: $('#Ativo').val(),
-        Dependentes: $('#Dependentes').val()
-    }
-
-    return false;
-}

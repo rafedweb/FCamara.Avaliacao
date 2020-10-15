@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FCamara.App.Models.FuncionarioViewModel>
+﻿@model IEnumerable<FCamara.Common.RequestFilter.FuncionariosResponse>
 
 <table class="table table-hover">
     <thead class="thead-dark">
@@ -17,10 +17,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ativo)
-            </th>
-            <th >
-                
-            </th>
+            </th>            
         </tr>
     </thead>
     <tbody>
@@ -43,12 +40,7 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Ativo)
-                    </td>
-                    <td class="text-right">
-                        <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search"></span></a>
-                        <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt"></span></a>
-                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
-                    </td>
+                    </td>                  
                 </tr>
             }
         }
