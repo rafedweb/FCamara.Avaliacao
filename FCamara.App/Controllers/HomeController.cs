@@ -13,11 +13,7 @@ using System.Linq;
 namespace FCamara.App.Controllers
 {
     public class HomeController : Controller
-    {
-        //log do dotNet Core
-        //private readonly ILogger<HomeController> _logger;
-
-        //Kiss logger
+    {        
         private readonly ILogger _logger;
         private readonly IFuncionarioService _funcionarioService;
         private readonly IFuncionarioRepository _funcionarioRepository;
@@ -100,22 +96,11 @@ namespace FCamara.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Pesquisar(FiltrosFuncionario funcionarioViewModel)
         {
-
             var funcionarios = _mapper.Map<IEnumerable<FuncionarioViewModel>>(await _funcionarioService.ObterFuncionarios(funcionarioViewModel)).ToList();
 
             funcionarioViewModel.Funcionarios = new List<FuncionariosResponse>();
 
-            foreach (var funcionario in funcionarios)
-            {
-                funcionarioViewModel.Funcionarios.Add(new FuncionariosResponse
-                {
-                    Nome = funcionario.Nome,
-                    CPF = funcionario.CPF,
-                    Ativo = funcionario.Ativo,
-                    Nascimento = funcionario.Nascimento,
-                    Sexo = funcionario.Sexo
-                });
-            }
+            funcionarios.ForEach(f => funcionarioViewModel.Funcionarios.Add(FuncionarioViewModelToFuncionarioResponse(f)));                       
 
             return View(funcionarioViewModel);
         }
@@ -153,6 +138,18 @@ namespace FCamara.App.Controllers
             }
 
             return aniversariantes;
+        }
+
+        private FuncionariosResponse FuncionarioViewModelToFuncionarioResponse(FuncionarioViewModel funcionarioViewModel)
+        {
+            return new FuncionariosResponse
+            {
+                Nome = funcionarioViewModel.Nome,
+                CPF = funcionarioViewModel.CPF,
+                Ativo = funcionarioViewModel.Ativo,
+                Nascimento = funcionarioViewModel.Nascimento,
+                Sexo = funcionarioViewModel.Sexo
+            };
         }
     }
 }

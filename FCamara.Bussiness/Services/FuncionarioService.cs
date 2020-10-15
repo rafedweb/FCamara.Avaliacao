@@ -93,18 +93,12 @@ namespace FCamara.Bussiness.Services
 
         public async Task<IEnumerable<Funcionario>> ObterFuncionarios(FiltrosFuncionario filtros)
         {
-            var funcionarios = await _funcionarioRepository.Buscar(f => (filtros.Nome == null || f.Nome.Contains(filtros.Nome))
-                                                   && (filtros.Sexo == null || f.Sexo == filtros.Sexo)
-                                                   && (filtros.Ativo == null || f.Ativo == filtros.Ativo)
-                                                   && (filtros.Inicio == null || f.Nascimento >= filtros.Inicio)
-                                                   && (filtros.Fim == null || f.Nascimento <= filtros.Fim)
-                                                   && (filtros.Dependentes == null || (f.Dependentes.Count() > 0) == filtros.Dependentes)                                                 
-                                                  );
-
-
-            return funcionarios;
-
-
+            return await _funcionarioRepository.Buscar(f => (filtros.Nome == null || f.Nome.Contains(filtros.Nome))
+                                                         && (filtros.Sexo == null || f.Sexo == filtros.Sexo)
+                                                         && (filtros.Ativo == null || f.Ativo == filtros.Ativo)
+                                                         && (filtros.Inicio == null || f.Nascimento >= filtros.Inicio)
+                                                         && (filtros.Fim == null || f.Nascimento <= filtros.Fim)
+                                                         && (filtros.Dependentes == null || (f.Dependentes.Count() > 0) == filtros.Dependentes));           
         }
     }
 }
