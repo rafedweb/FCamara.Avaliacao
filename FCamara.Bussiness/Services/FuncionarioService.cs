@@ -29,12 +29,24 @@ namespace FCamara.Bussiness.Services
             if (!ExecutarValidacao(new FuncionarioValidation(), funcionario)
                 || !ExecutarValidacao(new EnderecoValidation(), funcionario.Endereco)) return;
 
+            if (_funcionarioRepository.Buscar(f => f.CPF == funcionario.CPF).Result.Any())
+            {
+                Notificar("Já existe um funcionrio com este documento infomado.");
+                return;
+            }
+
             await _funcionarioRepository.Adicionar(funcionario);
         }
 
         public async Task Atualizar(Funcionario funcionario)
         {
             if (!ExecutarValidacao(new FuncionarioValidation(), funcionario)) return;
+
+            if (_funcionarioRepository.Buscar(f => f.CPF == funcionario.CPF && f.Id != funcionario.Id).Result.Any())
+            {
+                Notificar("Já existe um funcionrio com este documento infomado.");
+                return;
+            }
 
             await _funcionarioRepository.Atualizar(funcionario);
         }

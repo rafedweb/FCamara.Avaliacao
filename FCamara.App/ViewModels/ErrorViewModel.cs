@@ -8,8 +8,8 @@ namespace FCamara.App.Models
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        //public int ErroCode { get; set; }
-        //public string Titulo { get; set; }
-        //public string Mensagem { get; set; }
+        public int ErroCode { get; set; }
+        public string Titulo { get; set; }
+        public string Mensagem { get; set; }
     }
 }

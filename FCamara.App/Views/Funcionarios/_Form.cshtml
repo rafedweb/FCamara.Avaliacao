@@ -1,6 +1,8 @@
 ﻿@model FCamara.App.Models.FuncionarioViewModel
 @using FCamara.Common.Enums
 
+<vc:summary></vc:summary>
+
 <div class="form-row">
     <div class="form-group col-md-12">
         <label asp-for="Nome" class="control-label"></label>
@@ -43,15 +45,19 @@
 </div>
 
 
-@if (Model != null)
+@if (Model != null && Model.Id != Guid.Empty)
 {
     <div id="EnderecoTarget">
         <partial name="_DetalhesEndereco" />
     </div>
 
+    // if (Model.Dependentes.Any())
+    //{
     <h4>Dependentes</h4>
     <hr />
     <partial name="../Dependentes/_ListaDependentes" model="@Model.Dependentes" />
+    //}
+
 }
 else
 {
