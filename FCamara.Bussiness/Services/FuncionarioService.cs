@@ -3,6 +3,7 @@ using FCamara.Bussiness.Interfaces.Repository;
 using FCamara.Bussiness.Interfaces.Service;
 using FCamara.Bussiness.Models;
 using FCamara.Bussiness.Models.Validations;
+using FCamara.Common.Enums;
 using FCamara.Common.RequestFilter;
 using System;
 using System.Collections.Generic;
@@ -94,7 +95,7 @@ namespace FCamara.Bussiness.Services
         public async Task<IEnumerable<Funcionario>> ObterFuncionarios(FiltrosFuncionario filtros)
         {
             return await _funcionarioRepository.Buscar(f => (filtros.Nome == null || f.Nome.Contains(filtros.Nome))
-                                                         && (filtros.Sexo == null || f.Sexo == filtros.Sexo)
+                                                         && (filtros.Sexo == null || f.Sexo == (ESexo)filtros.Sexo)
                                                          && (filtros.Ativo == null || f.Ativo == filtros.Ativo)
                                                          && (filtros.Inicio == null || f.Nascimento >= filtros.Inicio)
                                                          && (filtros.Fim == null || f.Nascimento <= filtros.Fim)
