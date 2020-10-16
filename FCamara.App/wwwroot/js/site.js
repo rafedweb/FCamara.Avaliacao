@@ -94,5 +94,20 @@ function BuscaCep() {
 
 $(document).ready(function () {
     $("#msg_box").fadeOut(2500);
+
+    $(".telphone_with_code").inputmask({
+        mask: "(99) 9999-9999"
+    });
+    $(".cellphone_with_code").inputmask({
+        mask: "(99) 99999-9999"
+    });
+
+    $(".date").inputmask({
+        mask: "99/99/9999"
+    });
+
+    $(".cpf").inputmask({
+        mask: "999.999.999-99"
+    });
 });
 

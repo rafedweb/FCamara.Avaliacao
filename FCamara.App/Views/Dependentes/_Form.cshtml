@@ -18,12 +18,12 @@
 </div>
 <div class="form-group">
     <label asp-for="CPF" class="control-label"></label>
-    <input asp-for="CPF" class="form-control" />
+    <input asp-for="CPF" class="form-control "  />
     <span asp-validation-for="CPF" class="text-danger"></span>
 </div>
 <div class="form-group">
     <label asp-for="Nascimento" class="control-label"></label>
-    <input asp-for="Nascimento" class="form-control" />
+    <input asp-for="Nascimento" class="form-control date" data-mask="99/99/9999"/>
     <span asp-validation-for="Nascimento" class="text-danger"></span>
 </div>
 @if (Model != null)
