@@ -7,11 +7,9 @@ using AutoMapper;
 using FCamara.Bussiness.Interfaces.Service;
 using FCamara.Common.RequestFilter;
 using KissLog;
-using Microsoft.Extensions.Caching.Memory;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System;
-using FCamara.Common.Enums;
 
 namespace FCamara.App.Controllers
 {
